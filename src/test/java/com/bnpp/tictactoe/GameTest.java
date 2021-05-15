@@ -45,7 +45,7 @@ public class GameTest {
 
     @Test
     public void shouldThrowExceptionIncaseInputPositionAlreadyFilledInBoard() {
-        var input = "1";
+        var input = 1;
         GameBoard gameBoard = game.initBoard();
         String[][] board = gameBoard.getBoard();
         board[0][0] = "X";

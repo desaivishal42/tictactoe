@@ -19,7 +19,7 @@ public class Game {
         }
     }
 
-    public void validateIfInputPosFilled(String[][] board, String input) {
+    public void validateIfInputPosFilled(String[][] board, int input) {
 
     }
 }
