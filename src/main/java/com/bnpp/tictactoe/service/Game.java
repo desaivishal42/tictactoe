@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 public class Game {
 
     public GameBoard initBoard() {
-        return null;
+        return new GameBoard();
     }
 }
