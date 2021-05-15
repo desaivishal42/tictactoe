@@ -42,4 +42,13 @@ public class GameTest {
     public void shouldThrowExceptionIncaseInputGreaterThanNine(int input) {
         Assertions.assertThrows(InvalidInputException.class, () -> game.validateInput(input));
     }
+
+    @Test
+    public void shouldThrowExceptionIncaseInputPositionAlreadyFilledInBoard() {
+        var input = "1";
+        GameBoard gameBoard = game.initBoard();
+        String[][] board = gameBoard.getBoard();
+        board[0][0] = "X";
+        Assertions.assertThrows(InvalidInputException.class, () -> game.validateIfInputPosFilled(board, input));
+    }
 }

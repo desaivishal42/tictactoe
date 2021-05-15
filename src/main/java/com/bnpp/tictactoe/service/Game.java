@@ -18,4 +18,8 @@ public class Game {
             throw new InvalidInputException(INVALID_INPUT_RANGE_ERROR);
         }
     }
+
+    public void validateIfInputPosFilled(String[][] board, String input) {
+
+    }
 }
