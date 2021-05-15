@@ -1,5 +1,6 @@
 package com.bnpp.tictactoe;
 
+import com.bnpp.tictactoe.exception.InvalidInputException;
 import com.bnpp.tictactoe.model.GameBoard;
 import com.bnpp.tictactoe.service.Game;
 import org.junit.jupiter.api.Assertions;
@@ -28,5 +29,17 @@ public class GameTest {
     @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9})
     public void shouldBeValidInputByPlayer(int input) {
         Assertions.assertDoesNotThrow(() -> game.validateInput(input));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1})
+    public void shouldThrowExceptionIncaseInputLessThanOne(int input) {
+        Assertions.assertThrows(InvalidInputException.class, () -> game.validateInput(input));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {10, 12})
+    public void shouldThrowExceptionIncaseInputGreaterThanNine(int input) {
+        Assertions.assertThrows(InvalidInputException.class, () -> game.validateInput(input));
     }
 }
