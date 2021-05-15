@@ -21,4 +21,10 @@ public class GameTest {
         GameBoard gameBoard = game.initBoard();
         Assertions.assertNotNull(gameBoard);
     }
+
+    @Test
+    public void shouldBeValidInputByPlayer() {
+        var input = 1;
+        Assertions.assertDoesNotThrow(() -> game.validateInput(input));
+    }
 }
