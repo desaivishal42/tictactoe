@@ -11,6 +11,8 @@ public class Game {
     private static final String INVALID_INPUT_ALREADY_FILLED_ERROR = "Input position already filled by counter player";
     private static final String X_INPUT = "X";
     private static final String O_INPUT = "O";
+    public static final String PLAYER_X = "Player 1";
+    public static final String PLAYER_O = "Player 2";
 
     public GameBoard initBoard() {
         return new GameBoard();
@@ -52,5 +54,9 @@ public class Game {
             default:
                 throw new InvalidInputException(INVALID_INPUT_RANGE_ERROR);
         }
+    }
+
+    public String searchWinner(String[][] board) {
+        return null;
     }
 }

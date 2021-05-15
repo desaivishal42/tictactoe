@@ -7,10 +7,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.bnpp.tictactoe.service.Game.PLAYER_O;
+import static com.bnpp.tictactoe.service.Game.PLAYER_X;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -50,5 +57,95 @@ public class GameTest {
         String[][] board = gameBoard.getBoard();
         board[0][0] = "X";
         Assertions.assertThrows(InvalidInputException.class, () -> game.validateIfInputPosFilled(board, input));
+    }
+
+    @ParameterizedTest
+    @MethodSource("createBoardForPlayerX")
+    public void shouldDeclarePlayerOneWinnerIfTicTacToeConditionSatisfies(GameBoard gameBoard) {
+        String[][] board = gameBoard.getBoard();
+        String winner = game.searchWinner(board);
+        Assertions.assertEquals(PLAYER_X, winner);
+    }
+
+    @ParameterizedTest
+    @MethodSource("createBoardForPlayerY")
+    public void shouldDeclarePlayerTwoWinnerIfTicTacToeConditionSatisfies(GameBoard gameBoard) {
+        String[][] board = gameBoard.getBoard();
+        String winner = game.searchWinner(board);
+        Assertions.assertEquals(PLAYER_O, winner);
+    }
+
+    static List<GameBoard> createBoardForPlayerX() {
+        return createBoard("X");
+    }
+
+    static List<GameBoard> createBoardForPlayerY() {
+        return createBoard("Y");
+    }
+
+    public static List<GameBoard> createBoard(String playerOne) {
+        List<GameBoard> boards = new ArrayList<>();
+
+        GameBoard boardOne = new GameBoard();
+        setRow(boardOne.getBoard(), 0, playerOne);
+        boards.add(boardOne);
+
+        GameBoard boardTwo = new GameBoard();
+        setRow(boardTwo.getBoard(), 1, playerOne);
+        boards.add(boardTwo);
+
+        GameBoard boardThree = new GameBoard();
+        setRow(boardThree.getBoard(), 2, playerOne);
+        boards.add(boardThree);
+
+        GameBoard boardFour = new GameBoard();
+        setCol(boardFour.getBoard(), 0, playerOne);
+        boards.add(boardFour);
+
+        GameBoard boardFive = new GameBoard();
+        setCol(boardFive.getBoard(), 1, playerOne);
+        boards.add(boardFive);
+
+        GameBoard boardSix = new GameBoard();
+        setCol(boardSix.getBoard(), 2, playerOne);
+        boards.add(boardSix);
+
+        GameBoard boardSeven = new GameBoard();
+        setDiagonal(boardSeven.getBoard(), playerOne);
+        boards.add(boardSeven);
+
+        GameBoard boardEight = new GameBoard();
+        setDiagonal2(boardEight.getBoard(), playerOne);
+        boards.add(boardEight);
+
+        return boards;
+    }
+
+    static String[][] setRow(String[][] board, int row, String input) {
+        for (int i = 0; i < 3; i++) {
+            board[row][i] = input;
+        }
+        return board;
+    }
+
+    static String[][] setCol(String[][] board, int col, String input) {
+        for (int i = 0; i < 3; i++) {
+            board[i][col] = input;
+        }
+        return board;
+    }
+
+    static String[][] setDiagonal(String[][] board, String input) {
+        for (int i = 0, j = 0; i < 3 && j < 3; i++, j++) {
+            board[i][j] = input;
+        }
+        return board;
+    }
+
+    static String[][] setDiagonal2(String[][] board, String input) {
+        for (int i = 0, j = 2; i < 3 && j >= 0; i++, j--) {
+            board[i][j] = input;
+        }
+        return board;
     }
 }
