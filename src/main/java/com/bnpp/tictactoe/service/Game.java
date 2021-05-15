@@ -7,11 +7,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class Game {
 
+    private static final String INVALID_INPUT_RANGE_ERROR = "Input should be [1-9]";
+
     public GameBoard initBoard() {
         return new GameBoard();
     }
 
     public void validateInput(int input) throws InvalidInputException {
-        throw new InvalidInputException();
+        if (input < 1 || input > 9) {
+            throw new InvalidInputException(INVALID_INPUT_RANGE_ERROR);
+        }
     }
 }
