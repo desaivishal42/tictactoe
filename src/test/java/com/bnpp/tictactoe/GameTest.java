@@ -168,7 +168,7 @@ public class GameTest {
         boards.add(boardOne);
 
         GameBoard boardTwo = new GameBoard();
-        String[][] board2 = boardOne.getBoard();
+        String[][] board2 = boardTwo.getBoard();
         board2[0][1] = "X";
         board2[1][1] = "O";
         board2[2][1] = "X";
