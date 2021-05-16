@@ -88,7 +88,7 @@ public class GameTest {
     }
 
     static List<GameBoard> createBoardForPlayerY() {
-        return createBoard("Y");
+        return createBoard("O");
     }
 
     public static List<GameBoard> createBoard(String playerOne) {
