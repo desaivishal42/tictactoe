@@ -83,6 +83,27 @@ public class GameTest {
         Assertions.assertNull(winner);
     }
 
+    @Test
+    public void shouldReturnDrawIfAllPositionCompletesWithoutWinner() {
+        GameBoard gameBoard = game.initBoard();
+        String[][] board = gameBoard.getBoard();
+        setBoardForDrawGame(board);
+        String winner = game.searchWinner(board);
+        Assertions.assertEquals("Draw", winner);
+    }
+
+    private void setBoardForDrawGame(String[][] board) {
+        board[0][0] = "X";
+        board[0][1] = "O";
+        board[0][2] = "X";
+        board[1][0] = "O";
+        board[1][1] = "X";
+        board[1][2] = "O";
+        board[2][0] = "O";
+        board[2][1] = "X";
+        board[2][2] = "O";
+    }
+
     static List<GameBoard> createBoardForPlayerX() {
         return createBoard("X");
     }
