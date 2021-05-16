@@ -5,6 +5,7 @@ import com.bnpp.tictactoe.model.GameBoard;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 @Service
 public class Game {
@@ -18,6 +19,101 @@ public class Game {
     public static final String PLAYER_X_WINNER_PATTERN = "XXX";
     public static final String PLAYER_O_WINNER_PATTERN = "OOO";
     public static final String DRAW = "Draw";
+
+
+    public void playGame() {
+        String turn = PLAYER_X;
+        String[][] board = initBoard().getBoard();
+        Scanner in = new Scanner(System.in);
+
+        welcomeMessage();
+
+        while (null == searchWinner(board)) {
+            displayBoard(board);
+            System.out.println(turn + ": Select the position");
+            int position = in.nextInt();
+            try {
+                validateInput(position);
+                validateIfInputPosFilled(board, position);
+            } catch (InvalidInputException e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
+
+            String value = turn.equals(PLAYER_X) ? X_INPUT : O_INPUT;
+            updateBoard(board, position, value);
+            turn = turn.equals(PLAYER_X) ? PLAYER_O : PLAYER_X;
+        }
+        String winner = searchWinner(board);
+
+        endGame(winner);
+    }
+
+    private void welcomeMessage() {
+        System.out.println("**** Welcome to TicTacToe Game ****");
+        System.out.println("Player X will go first");
+    }
+
+    private void endGame(String winner) {
+        if (DRAW.equals(winner)) {
+            System.out.println("Match is drawn");
+        } else {
+            System.out.println("**** " + winner + " wins the game ****");
+        }
+
+        System.out.println("*************************");
+        System.out.println("Do you want to play it again Y/N??");
+
+        Scanner in = new Scanner(System.in);
+        String input = in.next();
+        if (input.equals("Y")) {
+            playGame();
+        } else {
+            System.out.println("Thanks for playing!!");
+        }
+    }
+
+    private void updateBoard(String[][] board, int input, String value) {
+        switch (input) {
+            case 1:
+                board[0][0] = value;
+                break;
+            case 2:
+                board[0][1] = value;
+                break;
+            case 3:
+                board[0][2] = value;
+                break;
+            case 4:
+                board[1][0] = value;
+                break;
+            case 5:
+                board[1][1] = value;
+                break;
+            case 6:
+                board[1][2] = value;
+                break;
+            case 7:
+                board[2][0] = value;
+                break;
+            case 8:
+                board[2][1] = value;
+                break;
+            case 9:
+                board[2][2] = value;
+                break;
+        }
+    }
+
+    private void displayBoard(String[][] board) {
+        System.out.println("|---|---|---|");
+        System.out.println("| " + board[0][0] + " | " + board[0][1] + " | " + board[0][2] + " |");
+        System.out.println("|-----------|");
+        System.out.println("| " + board[1][0] + " | " + board[1][1] + " | " + board[1][2] + " |");
+        System.out.println("|-----------|");
+        System.out.println("| " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + " |");
+        System.out.println("|---|---|---|");
+    }
 
     public GameBoard initBoard() {
         return new GameBoard();
