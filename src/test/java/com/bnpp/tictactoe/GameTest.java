@@ -75,6 +75,14 @@ public class GameTest {
         Assertions.assertEquals(PLAYER_O, winner);
     }
 
+    @ParameterizedTest
+    @MethodSource("createIncompleteBoard")
+    public void shouldReturnNullIfTicTacToeConditionDoesNotSatisfies(GameBoard gameBoard) {
+        String[][] board = gameBoard.getBoard();
+        String winner = game.searchWinner(board);
+        Assertions.assertNull(winner);
+    }
+
     static List<GameBoard> createBoardForPlayerX() {
         return createBoard("X");
     }
@@ -147,5 +155,25 @@ public class GameTest {
             board[i][j] = input;
         }
         return board;
+    }
+
+    static List<GameBoard> createIncompleteBoard() {
+        List<GameBoard> boards = new ArrayList<>();
+
+        GameBoard boardOne = new GameBoard();
+        String[][] board1 = boardOne.getBoard();
+        board1[0][0] = "X";
+        board1[0][1] = "O";
+        board1[0][2] = "X";
+        boards.add(boardOne);
+
+        GameBoard boardTwo = new GameBoard();
+        String[][] board2 = boardOne.getBoard();
+        board2[0][1] = "X";
+        board2[1][1] = "O";
+        board2[2][1] = "X";
+        boards.add(boardTwo);
+
+        return boards;
     }
 }
