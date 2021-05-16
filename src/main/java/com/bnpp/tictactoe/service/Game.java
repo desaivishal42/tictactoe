@@ -4,6 +4,8 @@ import com.bnpp.tictactoe.exception.InvalidInputException;
 import com.bnpp.tictactoe.model.GameBoard;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+
 @Service
 public class Game {
 
@@ -15,6 +17,7 @@ public class Game {
     public static final String PLAYER_O = "Player 2";
     public static final String PLAYER_X_WINNER_PATTERN = "XXX";
     public static final String PLAYER_O_WINNER_PATTERN = "OOO";
+    public static final String DRAW = "Draw";
 
     public GameBoard initBoard() {
         return new GameBoard();
@@ -88,8 +91,18 @@ public class Game {
                 || PLAYER_O_WINNER_PATTERN.equals(dia1)
                 || PLAYER_O_WINNER_PATTERN.equals(dia2)) {
             return PLAYER_O;
+        } else if (isGameDraw(board)) {
+            return DRAW;
         } else {
             return null;
         }
+    }
+
+    private boolean isGameDraw(String[][] board) {
+        int count = (int) Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .filter(x -> x.equals("X") || x.equals("O"))
+                .count();
+        return count == 9;
     }
 }
